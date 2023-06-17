@@ -1,0 +1,22 @@
+
+(j.nombre_jugador | 
+    Jugadores(j) Y 
+    (¬∃j2)(
+        Jugadores(j2) Y 
+        j.nombre_equipo = j2.nombre_equipo Y 
+        (
+            j.velocidad     <= j2.velocidad O
+            j.defensa       <= j2.defensa O
+            j.pase          <= j2.pase O
+            j.disparo       <= j2.disparo O
+            j.resistencia   <= j2.resistencia
+        )
+    )
+)
+
+MATCH 
+(p1:Persona)-[:HIJO_DE]->(p2:Persona), 
+(p2)-[:REINÓ]->(t1:Territorio{nombre:'Inglaterra'}), 
+(p1)-[:SE_CASO_CON]->(p3:Persona), 
+(p3)-[:REINÓ]->(t2:Territorio{nombre:'Francia'}) 
+WHERE NOT EXISTS {p1-[:REINÓ]->t1}

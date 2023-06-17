@@ -1,0 +1,20 @@
+CRT
+
+Suponiendo que, si una persona tiene sólo 1 amigo, cumple con la regla.
+
+{ c1.cod_usuario_1 |
+    Amistades(c1) Y 
+    (¬∃c2) (
+        Amistades(c2) Y 
+        c2.cod_usuario_1 = c1.cod_usuario_2 Y
+        (¬∃c3) (
+            Amistades(c3) Y 
+            c3.cod_usuario_1 = c2.cod_usuario_2 Y 
+            c3.cod_usuario_2 = c1.cod_usuario_1
+        )
+    )
+}
+
+MATCH 
+(u1:Usuario)-[:AMIGO_DE*2]->(u2:Usuario)
+WHERE EXISTS {MATCH u1-[:AMIGO_DE]-u2}

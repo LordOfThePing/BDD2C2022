@@ -1,0 +1,87 @@
+{ c.id carta, d.cod regalo, r.precio | 
+    Cartas(c) ∧ Deseos(d) ∧ Regalos(r) ∧
+    
+    c.pais = "Brasil" ∧ c.id_carta = d.id_carta ∧ d.cod_regalo = r.cod_regalo ∧
+
+    (¬∃d2)(
+        Deseo(d2) ∧ 
+        d.id_carta = d2.id_carta ∧ 
+        (∃r2)(
+            Regalos(r2) ∧ 
+            d2.cod_regalo = r2.cod_regalo ∧ 
+            (   
+                r2.precio_rupias < r.precio_rupias ∨ 
+                r2.precio_rupias = r.precio_rupias ∧ 
+                r2.cod_regalo < r.cod_regalo
+            )
+        )
+    )
+}
+
+
+
+{ c.nombre_cocktail | 
+    Cocktails(c) ∧
+
+    (¬∃o) (
+        Composiciones(o) ∧ 
+        o.nombre_cocktail = c.nombre_cocktail ∧
+        (∃i) (
+            Ingredientes(i) ∧
+            o.nombre_ingrediente = i.nombre_ingrediente ∧
+            i.en_alacena = False 
+        )
+    )
+
+}
+
+{ v.numero_inscripción, v.apellido, v.nombre | 
+    Visitantes(v) Y 
+    (¬∃d) (
+        Degustaciones(d) Y 
+        d.numero_inscripción = v.numero_inscripción Y 
+        (∃d2) (
+            Degustaciones(d2) Y 
+            d2.numero_inscripción = v.numero_inscripción Y
+            d2.marca != d.marca
+        )
+   )
+
+}
+
+{ c.nombre_cine, c.barrio, c.direccion | 
+    Cines(c) Y 
+    (∃f) (
+        Funciones(f) Y
+        c.nombre_cine = f.nombre_cine Y 
+        f.fecha = 05-08-2017 Y 
+        f.hora > 22 Y 
+        (∃p) (
+            Peliculas(p) Y
+            p.nombre_pelicula = f.nombre_pelicula Y 
+            f.idioma_audio = p.idioma_original Y 
+            p.genero = "terror"
+        )
+    )
+}
+
+{ m.nombre_museo, m.ciudad, m.pais, m.precio | Museos(m) Y 
+    (¬∃p) (
+        Pinturas(p) Y 
+        p.nombre_museo = m.nombre_museo Y 
+        p.nombre_artista = 'PABLO PICASSO'
+    ) Y
+    (∃p) (
+        Pinturas(p) Y 
+        p.nombre_museo = m.nombre_museo Y 
+        (∃c) (
+            Corrientes(c) Y 
+            c.nombre_artista = p.nombre_artista Y 
+            (∃c2) (
+                Corrientes(c2) Y 
+                c2.nombre_artista = 'PABLO PICASSO' Y
+                c2.nombre_corriente = c.nombre_corriente   
+            )        
+        )
+    )
+}
